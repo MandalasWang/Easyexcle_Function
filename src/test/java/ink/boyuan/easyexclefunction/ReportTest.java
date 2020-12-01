@@ -19,9 +19,9 @@ import java.util.List;
 @SpringBootTest
 public class ReportTest {
 
-
-
-    private ReportExcelUtil reportExcelUtil = new ReportExcelUtil();
+    /**
+     * 数据集合
+     */
     static List<DataDemo> dataDemos = new ArrayList<>();
 
     static {
@@ -43,7 +43,7 @@ public class ReportTest {
         File file = new File("D:\\work\\excel\\report.xlsx");
         OutputStream outputStream = new FileOutputStream(file);
         try {
-            reportExcelUtil.writeExcelIn(outputStream,dataDemos,"1",DataDemo.class);
+            ReportExcelUtil.writeExcelIn(outputStream,dataDemos,"1",DataDemo.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class ReportTest {
         File file = new File("D:\\work\\excel\\reportComplexSheet.xlsx");
         OutputStream outputStream = new FileOutputStream(file);
         try {
-            reportExcelUtil.writeExcelComplexSheet(outputStream,dataDemos,dataDemos,"1","2",DataDemo.class);
+            ReportExcelUtil.writeExcelComplexSheet(outputStream,dataDemos,dataDemos,"1","2",DataDemo.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class ReportTest {
         File file = new File("D:\\work\\excel\\repeatWrite.xlsx");
         OutputStream outputStream = new FileOutputStream(file);
         try {
-            reportExcelUtil.repeatedWrite(outputStream,dataDemos,"1",DataDemo.class,3);
+            ReportExcelUtil.repeatedWrite(outputStream,dataDemos,"1",DataDemo.class,3);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +94,7 @@ public class ReportTest {
         File file = new File("D:\\work\\excel\\ComplexHeadWrite.xlsx");
         OutputStream outputStream = new FileOutputStream(file);
         try {
-            reportExcelUtil.writeExcelIn(outputStream,dataDemos,"1",ComplexHeadDemo.class);
+            ReportExcelUtil.writeExcelIn(outputStream,dataDemos,"1",ComplexHeadDemo.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,7 +107,7 @@ public class ReportTest {
         File file1 = new File("D:\\work\\excel\\WriteInTemplate.xlsx");
         OutputStream outputStream = new FileOutputStream(file1);
         try {
-            reportExcelUtil.writeExcelInSheetNo(outputStream,dataDemos,inputStream,"4",DataDemo.class,4);
+            ReportExcelUtil.writeExcelInSheetNo(outputStream,dataDemos,inputStream,"4",DataDemo.class,4);
         } catch (Exception e) {
             e.printStackTrace();
         }

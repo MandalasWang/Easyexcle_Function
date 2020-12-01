@@ -43,7 +43,7 @@ public class ReportExcelUtil {
      * @param model     映射实体类，Excel 模型
      * @throws Exception 异常
      */
-    public <T> void writeExcel(HttpServletResponse response, List<T> data,
+    public static  <T> void writeExcel(HttpServletResponse response, List<T> data,
                                String fileName, String sheetName, Class  model) throws Exception {
         // 头的策略
         WriteCellStyle headWriteCellStyle = new WriteCellStyle();
@@ -76,7 +76,7 @@ public class ReportExcelUtil {
      * @param model     映射实体类，Excel 模型
      * @throws Exception 异常
      */
-    public <T> void writeExcelComplexSheet(HttpServletResponse response, List<T> data1, List<T> data2,
+    public static <T> void writeExcelComplexSheet(HttpServletResponse response, List<T> data1, List<T> data2,
                                String fileName, String sheetName1,String sheetName2, Class model) throws Exception {
         if(sheetName1.trim().equals(sheetName2)){
             throw new MyException(RetResponse.makeErrRsp("请不要输入相同的sheet名称"));
@@ -101,7 +101,7 @@ public class ReportExcelUtil {
      * @param model     映射实体类，Excel 模型
      * @throws Exception 异常
      */
-    public <T> void writeExcelComplexSheet(OutputStream outputStream, List<T> data1, List<T> data2,
+    public static <T> void writeExcelComplexSheet(OutputStream outputStream, List<T> data1, List<T> data2,
                                             String sheetName1,String sheetName2, Class model) throws Exception {
         if(sheetName1.trim().equals(sheetName2)){
             throw new MyException(RetResponse.makeErrRsp("请不要输入相同的sheet名称"));
@@ -126,7 +126,7 @@ public class ReportExcelUtil {
      * @param model     映射实体类，Excel 模型
      * @throws Exception 异常
      */
-    public <T> void writeExcelIn(OutputStream outputStream, List<T> data,
+    public static <T> void writeExcelIn(OutputStream outputStream, List<T> data,
                                String sheetName, Class model) throws Exception {
         // 头的策略
         WriteCellStyle headWriteCellStyle = new WriteCellStyle();
@@ -160,7 +160,7 @@ public class ReportExcelUtil {
      * @param <T>
      * @throws Exception
      */
-    public <T> void repeatedWrite (OutputStream outputStream, List<T> data,
+    public static <T> void repeatedWrite (OutputStream outputStream, List<T> data,
                                     String sheetName, Class model,Integer sheetNo) {
         ExcelWriter excelWriter = null;
         // 头的策略
@@ -202,7 +202,7 @@ public class ReportExcelUtil {
      * @param sheetNo      导入文件的 sheet  指定输出在哪一个sheet中，角标从0开始
      * @param model        映射实体类，Excel 模型
      */
-    public <T> void writeExcelInSheetNo(OutputStream outputStream, List<T> data,
+    public static <T> void writeExcelInSheetNo(OutputStream outputStream, List<T> data,
                                   InputStream in,String sheetName, Class model,Integer sheetNo) {
         ExcelWriter excelWriter;
         // 头的策略
@@ -238,7 +238,7 @@ public class ReportExcelUtil {
      * @param data  数据集合
      * @deprecated  当前方法可以使用但是请按照阿里官方文档传入参数
      */
-    public void imageWrite(InputStream inputStream , String fileName,
+    public static void imageWrite(InputStream inputStream , String fileName,
                                Class<? extends ImageDemo> clazz, List<? extends ImageDemo> data) throws Exception {
         try {
             Field[] fields = clazz.getFields();
@@ -274,7 +274,7 @@ public class ReportExcelUtil {
      * @return 响应流输出
      * @throws Exception exception
      */
-    private OutputStream getOutputStream(String fileName,
+    private static OutputStream getOutputStream(String fileName,
                                          HttpServletResponse response) throws Exception {
         try {
             fileName = URLEncoder.encode(fileName, "UTF-8");

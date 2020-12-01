@@ -21,7 +21,6 @@ import java.util.Map;
 @SpringBootTest
 public class ReadTest {
 
-    private ImportExcelUtil importExcelUtil = new ImportExcelUtil();
 
     /**
      * 简单的读取所有
@@ -30,7 +29,7 @@ public class ReadTest {
     @Test
     public void simpleReadTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\report.xlsx");
-        List<DataDemo> dataDemos = importExcelUtil.simpleRead(inputStream, DataDemo.class, 1);
+        List<DataDemo> dataDemos = ImportExcelUtil.simpleRead(inputStream, DataDemo.class, 1);
         dataDemos.forEach(System.out::println);
     }
 
@@ -42,7 +41,7 @@ public class ReadTest {
     @Test
     public void repeatedReadTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<DataDemo> dataDemos = importExcelUtil.repeatedReadToAll(inputStream, DataDemo.class);
+        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadToAll(inputStream, DataDemo.class);
         dataDemos.forEach(System.out::println);
     }
 
@@ -53,7 +52,7 @@ public class ReadTest {
     @Test
     public void repeatedReadBySheetTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<DataDemo> dataDemos = importExcelUtil.repeatedReadBySheetNo(inputStream, DataDemo.class, 2,1);
+        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadBySheetNo(inputStream, DataDemo.class, 2,1);
         dataDemos.forEach(System.out::println);
     }
 
@@ -65,7 +64,7 @@ public class ReadTest {
     @Test
     public void headerRead() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<Map<Integer, String>> maps = importExcelUtil.headerRead(inputStream, DataDemo.class);
+        List<Map<Integer, String>> maps = ImportExcelUtil.headerRead(inputStream, DataDemo.class);
         maps.forEach(System.out::println);
     }
 }

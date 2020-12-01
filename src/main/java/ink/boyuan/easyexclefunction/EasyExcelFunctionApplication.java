@@ -18,8 +18,5 @@ public class EasyExcelFunctionApplication {
     }
 
 
-    @Bean
-    public ReportExcelUtil getReportExcelUtil(){
-        return new ReportExcelUtil();
-    }
+
 }

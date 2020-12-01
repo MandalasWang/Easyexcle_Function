@@ -26,7 +26,7 @@ public class ImportExcelUtil {
     /**
      * 日志记录
      */
-    private final Logger LOGGER = LoggerFactory.getLogger(ImportExcelUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImportExcelUtil.class);
 
     /**
      * 简单的读
@@ -36,7 +36,7 @@ public class ImportExcelUtil {
      * @param headRowNumber 从第几行开始读(角标从0开始)
      * @return 数据源list
      */
-    public <T> List<T> simpleRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
+    public static  <T> List<T> simpleRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
         // 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
@@ -53,7 +53,7 @@ public class ImportExcelUtil {
      * <p>2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link ReadExcelListener}
      * <p>3. 直接读即可
      */
-    public <T> List<T> indexOrNameRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
+    public static <T> List<T> indexOrNameRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 这里默认读取第一个sheet
         EasyExcel.read(inputStream, clazz, dataListener).sheet().headRowNumber(headRowNumber).doRead();
@@ -71,7 +71,7 @@ public class ImportExcelUtil {
      * <p>
      * 3. 直接读即可
      */
-    public <T>List<T> repeatedReadToAll(InputStream inputStream, Class<T> clazz) {
+    public static <T>List<T> repeatedReadToAll(InputStream inputStream, Class<T> clazz) {
 
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 读取全部sheet
@@ -92,7 +92,7 @@ public class ImportExcelUtil {
      * 3. 直接读即可
      * @param sheetNos  输入需要读取的sheet 想要读取那个就输入哪个
      */
-    public <T>List<T> repeatedReadBySheetNo(InputStream inputStream, Class<T> clazz, int headRowNumber,Integer ...sheetNos) {
+    public static <T>List<T> repeatedReadBySheetNo(InputStream inputStream, Class<T> clazz, int headRowNumber,Integer ...sheetNos) {
         ExcelReader excelReader  = EasyExcel.read(inputStream).build();
         List<T> res = new ArrayList<>();
         for(Integer sheet:sheetNos){
@@ -112,7 +112,7 @@ public class ImportExcelUtil {
      * @param <T>
      * @return
      */
-    private <T> List<T> readSheet( ExcelReader excelReader,Class<T> clazz, int headRowNumber, Integer sheet) {
+    private static <T> List<T> readSheet( ExcelReader excelReader,Class<T> clazz, int headRowNumber, Integer sheet) {
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 这里为了简单 所以注册了 同样的head 和Listener 自己使用功能必须不同的Listener
         ReadSheet build = EasyExcel.readSheet(sheet).head(clazz).registerReadListener(dataListener).headRowNumber(headRowNumber).build();
@@ -128,7 +128,7 @@ public class ImportExcelUtil {
      * <p>3. 设置headRowNumber参数，然后读。 这里要注意headRowNumber如果不指定， 会根据你传入的class的{@link ExcelProperty#value()}里面的表头的数量来决定行数，
      * 如果不传入class则默认为1.当然你指定了headRowNumber不管是否传入class都是以你传入的为准。
      */
-    public <T>List<T> complexHeaderRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
+    public static <T>List<T> complexHeaderRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet
         EasyExcel.read(inputStream, clazz,dataListener).sheet()
@@ -143,7 +143,7 @@ public class ImportExcelUtil {
      * 同步的返回，不推荐使用，如果数据量大会把数据放到内存里面
      */
     @Deprecated
-    public void synchronousRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
+    public static void synchronousRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet 同步读取会自动finish
         List<T> list = EasyExcel.read(inputStream,dataListener).head(clazz).headRowNumber(headRowNumber).sheet().doReadSync();
@@ -172,7 +172,7 @@ public class ImportExcelUtil {
      * <p>
      * 3. 直接读即可
      */
-    public <T>List<Map<Integer,String>> headerRead(InputStream inputStream, Class<T> clazz) {
+    public static <T>List<Map<Integer,String>> headerRead(InputStream inputStream, Class<T> clazz) {
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet
         EasyExcel.read(inputStream, clazz, dataListener).sheet().doRead();
@@ -194,7 +194,7 @@ public class ImportExcelUtil {
      *
      * @since 2.2.0-beat1
      */
-    public void extraRead(InputStream inputStream, Class<T> clazz) {
+    public static void extraRead(InputStream inputStream, Class<T> clazz) {
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet
         EasyExcel.read(inputStream, clazz, dataListener)
