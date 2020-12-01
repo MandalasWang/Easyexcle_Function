@@ -2,15 +2,9 @@ package ink.boyuan.easyexclefunction.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.context.AnalysisContext;
-import com.alibaba.excel.event.AnalysisEventListener;
-import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.fastjson.JSON;
-import ink.boyuan.easyexclefunction.constant.ReadConstant;
-import ink.boyuan.easyexclefunction.exception.MyException;
 import ink.boyuan.easyexclefunction.listen.ReadExcelListener;
-import ink.boyuan.easyexclefunction.response.RetResponse;
 import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -215,46 +209,5 @@ public class ImportExcelUtil {
     }
 
 
-
-    /**
-     * 实际监听类处理读取报表
-     * @param <T>
-     */
-    class DataListener<T> extends AnalysisEventListener<T> {
-
-        private List<T> list = new ArrayList<>();
-
-        public List<T> getList() {
-            return list;
-        }
-
-
-        /**
-         * 这个每一条数据解析都会来调用
-         *
-         * @param t one row value. It is same as {@link AnalysisContext#readRowHolder()}
-         */
-        @Override
-        public void invoke(T t, AnalysisContext context) {
-            LOGGER.info("解析到一条数据:{}", JSON.toJSONString(t));
-            list.add(t);
-            // 超过 BATCH_COUNT 条 抛出异常
-            if (list.size() >= ReadConstant.MAX_READ_COUNTS) {
-                try {
-                    throw new MyException(RetResponse.makeErrRsp("Read limit exceeded exception!"));
-                } catch (MyException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        /**
-         * 所有数据解析完成了 都会来调用
-         */
-        @Override
-        public void doAfterAllAnalysed(AnalysisContext context) {
-            LOGGER.info("所有数据解析完成！");
-        }
-    }
 
 }
