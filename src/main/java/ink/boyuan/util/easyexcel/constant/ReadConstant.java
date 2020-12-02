@@ -1,4 +1,4 @@
-package ink.boyuan.easyexclefunction.constant;
+package ink.boyuan.util.easyexcel.constant;
 
 /**
  * @author wyy

@@ -1,9 +1,7 @@
-package ink.boyuan.easyexclefunction;
+package ink.boyuan.util;
 
-import ink.boyuan.easyexclefunction.util.ReportExcelUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 /**
  * @author wyy

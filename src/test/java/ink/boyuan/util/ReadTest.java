@@ -1,7 +1,8 @@
-package ink.boyuan.easyexclefunction;
+package ink.boyuan.util;
 
-import ink.boyuan.easyexclefunction.model.DataDemo;
-import ink.boyuan.easyexclefunction.util.ImportExcelUtil;
+
+import ink.boyuan.util.easyexcel.model.DataDemo;
+import ink.boyuan.util.easyexcel.util.ImportExcelUtil;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,8 +38,8 @@ public class ReadTest {
     @Test
     public void ReadAllTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<Object> objects = ImportExcelUtil.repeatedReadToAllSheet(inputStream, DataDemo.class);
-        objects.forEach(System.out::println);
+        List<Object> objects1 = ImportExcelUtil.repeatedReadToAllSheet(inputStream, DataDemo.class);
+        objects1.forEach(System.out::println);
     }
 
     /**

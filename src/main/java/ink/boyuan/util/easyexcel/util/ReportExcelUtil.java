@@ -1,4 +1,4 @@
-package ink.boyuan.easyexclefunction.util;
+package ink.boyuan.util.easyexcel.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
@@ -9,9 +9,6 @@ import com.alibaba.excel.write.metadata.style.WriteCellStyle;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.sun.scenario.effect.ImageData;
-import ink.boyuan.easyexclefunction.exception.MyException;
-import ink.boyuan.easyexclefunction.model.ImageDemo;
-import ink.boyuan.easyexclefunction.response.RetResponse;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

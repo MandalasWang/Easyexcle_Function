@@ -1,4 +1,4 @@
-package ink.boyuan.easyexclefunction.model;
+package ink.boyuan.util.easyexcel.model;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;

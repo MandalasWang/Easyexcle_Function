@@ -1,12 +1,12 @@
-package ink.boyuan.easyexclefunction.util;
+package ink.boyuan.util.easyexcel.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.fastjson.JSON;
-import ink.boyuan.easyexclefunction.exception.MyException;
-import ink.boyuan.easyexclefunction.listen.ReadExcelListener;
-import ink.boyuan.easyexclefunction.response.RetResponse;
+import ink.boyuan.util.easyexcel.listen.ReadExcelListener;
+import ink.boyuan.util.easyexcel.exception.MyException;
+import ink.boyuan.util.easyexcel.response.RetResponse;
 import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public class ImportExcelUtil {
      * <p>
      * 1. 创建excel对应的实体对象 参照{@link DemoData}
      * <p>
-     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoHeadDataListener}
+     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link ReadExcelListener}
      * <p>
      * 3. 直接读即可
      */
@@ -53,7 +53,6 @@ public class ImportExcelUtil {
      *
      * @param inputStream
      * @param clazz
-     * @param headRowNumber
      * @param <T>
      * @return
      * @deprecated 无用的过期的方法
@@ -73,7 +72,6 @@ public class ImportExcelUtil {
      * @author wyy
      * @param inputStream 文件流
      * @param clazz    实体类
-     * @param headRowNumber 从第几行开始读(角标从1开始)
      * @return 数据源list
      */
     public static <T>List<T> simpleReadFirstSheet(InputStream inputStream, Class<T> clazz) throws MyException {
@@ -88,9 +86,9 @@ public class ImportExcelUtil {
      * 读全部sheet,这里注意一个sheet不能读取多次，多次读取需要重新读取文件
      * @author wyy
      * <p>
-     * 1. 创建excel对应的实体对象 参照{@link DemoData}
+     * 1. 创建excel对应的实体对象 参照{@link Class}
      * <p>
-     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoDataListener}
+     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link ReadExcelListener}
      * <p>
      * 3. 直接读即可
      */
@@ -110,9 +108,9 @@ public class ImportExcelUtil {
      * 指定sheet读取 传入0、1、2分别读取的sheet是Excel从左到右
      * @author wyy
      * <p>
-     * 1. 创建excel对应的实体对象 参照{@link DemoData}
+     * 1. 创建excel对应的实体对象 参照{@link Class}
      * <p>
-     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoDataListener}
+     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link ReadExcelListener}
      * <p>
      * 3. 直接读即可
      * @param sheetNos  输入需要读取的sheet 想要读取那个就输入哪个
@@ -152,9 +150,9 @@ public class ImportExcelUtil {
     /**
      * 多行头
      * @author wyy
-     * <p>1. 创建excel对应的实体对象 参照{@link DemoData}
-     * <p>2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoDataListener}
-     * <p>3. 设置headRowNumber参数，然后读。 这里要注意headRowNumber如果不指定， 会根据你传入的class的{@link ExcelProperty#value()}里面的表头的数量来决定行数，
+     * <p>1. 创建excel对应的实体对象 参照{@link Class}
+     * <p>2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link ReadExcelListener}
+     * <p>3. 设置headRowNumber参数，然后读。 这里要注意headRowNumber如果不指定， 会根据你传入的class的{@link @ExcelProperty#value()}里面的表头的数量来决定行数，
      * 如果不传入class则默认为1.当然你指定了headRowNumber不管是否传入class都是以你传入的为准。
      */
     public static <T>List<T> complexHeaderRead(InputStream inputStream, Class<T> clazz, int headRowNumber) throws MyException {
