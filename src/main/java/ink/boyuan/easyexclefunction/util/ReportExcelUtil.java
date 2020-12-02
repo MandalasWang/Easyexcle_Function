@@ -43,7 +43,7 @@ public class ReportExcelUtil {
      * @param model     映射实体类，Excel 模型
      * @throws Exception 异常
      */
-    public static  <T> void writeExcel(HttpServletResponse response, List<T> data,
+    public static  <T> void writeExcelByResponse(HttpServletResponse response, List<T> data,
                                String fileName, String sheetName, Class  model) throws Exception {
         // 头的策略
         WriteCellStyle headWriteCellStyle = new WriteCellStyle();
@@ -76,7 +76,7 @@ public class ReportExcelUtil {
      * @param model     映射实体类，Excel 模型
      * @throws Exception 异常
      */
-    public static <T> void writeExcelComplexSheet(HttpServletResponse response, List<T> data1, List<T> data2,
+    public static <T> void writeExcelComplexSheetByResponse(HttpServletResponse response, List<T> data1, List<T> data2,
                                String fileName, String sheetName1,String sheetName2, Class model) throws Exception {
         if(sheetName1.trim().equals(sheetName2)){
             throw new MyException(RetResponse.makeErrRsp("请不要输入相同的sheet名称"));
