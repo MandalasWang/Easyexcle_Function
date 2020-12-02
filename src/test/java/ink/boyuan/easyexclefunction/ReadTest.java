@@ -28,11 +28,18 @@ public class ReadTest {
      */
     @Test
     public void simpleReadTest() throws FileNotFoundException {
-        InputStream inputStream = new FileInputStream("D:\\work\\excel\\report.xlsx");
-        List<DataDemo> dataDemos = ImportExcelUtil.simpleRead(inputStream, DataDemo.class, 1);
+        InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
+        List<DataDemo> dataDemos = ImportExcelUtil.simpleReadFirstSheet(inputStream, DataDemo.class, 1);
         dataDemos.forEach(System.out::println);
     }
 
+
+    @Test
+    public void ReadAllTest() throws FileNotFoundException {
+        InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
+        List<Object> objects = ImportExcelUtil.repeatedReadToAllSheet(inputStream, DataDemo.class);
+        objects.forEach(System.out::println);
+    }
 
     /**
      * 重复的读取sheetNo  读取所有的sheet
@@ -41,7 +48,7 @@ public class ReadTest {
     @Test
     public void repeatedReadTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadToAll(inputStream, DataDemo.class);
+        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadToAllSheet(inputStream, DataDemo.class);
         dataDemos.forEach(System.out::println);
     }
 
@@ -52,7 +59,7 @@ public class ReadTest {
     @Test
     public void repeatedReadBySheetTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadBySheetNo(inputStream, DataDemo.class, 2,1);
+        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadBySheetNos(inputStream, DataDemo.class, 2,1);
         dataDemos.forEach(System.out::println);
     }
 

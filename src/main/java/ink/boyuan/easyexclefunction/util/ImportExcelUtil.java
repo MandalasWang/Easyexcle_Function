@@ -29,11 +29,11 @@ public class ImportExcelUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportExcelUtil.class);
 
     /**
-     * 简单的读
-     *
+     * 简单的读 只读单sheet默认第一个sheet
+     * @author wyy
      * @param inputStream 文件流
      * @param clazz    实体类
-     * @param headRowNumber 从第几行开始读(角标从0开始)
+     * @param headRowNumber 从第几行开始读(角标从1开始)
      * @return 数据源list
      */
     public static  <T> List<T> simpleRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
@@ -48,7 +48,7 @@ public class ImportExcelUtil {
 
     /**
      * 指定列的下标或者列名
-     *
+     * @author wyy
      * <p>1. 创建excel对应的实体对象,并使用{@link ExcelProperty}注解. 参照{@link IndexOrNameData}
      * <p>2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link ReadExcelListener}
      * <p>3. 直接读即可
@@ -64,6 +64,7 @@ public class ImportExcelUtil {
 
     /**
      * 读全部sheet,这里注意一个sheet不能读取多次，多次读取需要重新读取文件
+     * @author wyy
      * <p>
      * 1. 创建excel对应的实体对象 参照{@link DemoData}
      * <p>
@@ -71,7 +72,7 @@ public class ImportExcelUtil {
      * <p>
      * 3. 直接读即可
      */
-    public static <T>List<T> repeatedReadToAll(InputStream inputStream, Class<T> clazz) {
+    public static <T>List<T> repeatedReadToAllSheet(InputStream inputStream, Class clazz) {
 
         ReadExcelListener<T> dataListener = new ReadExcelListener<>();
         // 读取全部sheet
@@ -84,6 +85,8 @@ public class ImportExcelUtil {
 
     /**
      * 读全部sheet,这里注意一个sheet不能读取多次，多次读取需要重新读取文件
+     * 指定sheet读取 传入0、1、2分别读取的sheet是Excel从左到右
+     * @author wyy
      * <p>
      * 1. 创建excel对应的实体对象 参照{@link DemoData}
      * <p>
@@ -92,7 +95,7 @@ public class ImportExcelUtil {
      * 3. 直接读即可
      * @param sheetNos  输入需要读取的sheet 想要读取那个就输入哪个
      */
-    public static <T>List<T> repeatedReadBySheetNo(InputStream inputStream, Class<T> clazz, int headRowNumber,Integer ...sheetNos) {
+    public static <T>List<T> repeatedReadBySheetNos(InputStream inputStream, Class<T> clazz, int headRowNumber, Integer ...sheetNos) {
         ExcelReader excelReader  = EasyExcel.read(inputStream).build();
         List<T> res = new ArrayList<>();
         for(Integer sheet:sheetNos){
@@ -104,7 +107,20 @@ public class ImportExcelUtil {
     }
 
     /**
-     *
+     * 简单的读取第一个sheet表格内容
+     * @author wyy
+     * @param inputStream
+     * @param clazz
+     * @param headRowNumber
+     * @param <T>
+     * @return
+     */
+    public static <T>List<T> simpleReadFirstSheet(InputStream inputStream, Class<T> clazz, int headRowNumber) {
+        return repeatedReadBySheetNos(inputStream,clazz,headRowNumber,0);
+
+    }
+    /**
+     * @author wyy
      * @param excelReader  excel读取reader
      * @param clazz      读取模板
      * @param headRowNumber  读取行数
@@ -122,7 +138,7 @@ public class ImportExcelUtil {
 
     /**
      * 多行头
-     *
+     * @author wyy
      * <p>1. 创建excel对应的实体对象 参照{@link DemoData}
      * <p>2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoDataListener}
      * <p>3. 设置headRowNumber参数，然后读。 这里要注意headRowNumber如果不指定， 会根据你传入的class的{@link ExcelProperty#value()}里面的表头的数量来决定行数，
@@ -141,6 +157,7 @@ public class ImportExcelUtil {
 
     /**
      * 同步的返回，不推荐使用，如果数据量大会把数据放到内存里面
+     * @author wyy
      */
     @Deprecated
     public static void synchronousRead(InputStream inputStream, Class<T> clazz, int headRowNumber) {
@@ -164,7 +181,7 @@ public class ImportExcelUtil {
 
     /**
      * 读取表头数据
-     *
+     * @author wyy
      * <p>
      * 1. 创建excel对应的实体对象 参照{@link DemoData}
      * <p>
@@ -179,34 +196,6 @@ public class ImportExcelUtil {
         return dataListener.getHeadMapList();
     }
 
-
-    /**
-     * 额外信息（批注、超链接、合并单元格信息读取）
-     * <p>
-     * 由于是流式读取，没法在读取到单元格数据的时候直接读取到额外信息，所以只能最后通知哪些单元格有哪些额外信息
-     *
-     * <p>
-     * 1. 创建excel对应的实体对象 参照{@link DemoExtraData}
-     * <p>
-     * 2. 由于默认异步读取excel，所以需要创建excel一行一行的回调监听器，参照{@link DemoExtraListener}
-     * <p>
-     * 3. 直接读即可
-     *
-     * @since 2.2.0-beat1
-     */
-    public static void extraRead(InputStream inputStream, Class<T> clazz) {
-        ReadExcelListener<T> dataListener = new ReadExcelListener<>();
-        // 这里 需要指定读用哪个class去读，然后读取第一个sheet
-        EasyExcel.read(inputStream, clazz, dataListener)
-                // 需要读取批注 默认不读取
-                .autoCloseStream(true)
-//                .extraRead(CellExtraTypeEnum.COMMENT)
-                // 需要读取超链接 默认不读取
-//                .extraRead(CellExtraTypeEnum.HYPERLINK)
-                // 需要读取合并单元格信息 默认不读取
-//                .extraRead(CellExtraTypeEnum.MERGE).sheet().doRead();
-        ;
-    }
 
 
 
