@@ -29,7 +29,7 @@ public class ReadTest {
     @Test
     public void simpleReadTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<DataDemo> dataDemos = ImportExcelUtil.simpleReadFirstSheet(inputStream, DataDemo.class, 1);
+        List<DataDemo> dataDemos = ImportExcelUtil.simpleReadFirstSheet(inputStream, DataDemo.class);
         dataDemos.forEach(System.out::println);
     }
 
