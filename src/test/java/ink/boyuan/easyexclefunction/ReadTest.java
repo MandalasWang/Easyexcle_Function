@@ -24,10 +24,10 @@ public class ReadTest {
 
     /**
      * 简单的读取所有
-     * @throws FileNotFoundException
+     * @throws Exception
      */
     @Test
-    public void simpleReadTest() throws FileNotFoundException {
+    public void simpleReadTest() throws Exception {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
         List<DataDemo> dataDemos = ImportExcelUtil.simpleReadFirstSheet(inputStream, DataDemo.class);
         dataDemos.forEach(System.out::println);
@@ -54,10 +54,10 @@ public class ReadTest {
 
     /**
      * 读取指定的sheetNo  输入sheet不定参 想读哪个就输入哪个
-     * @throws FileNotFoundException
+     * @throws Exception
      */
     @Test
-    public void repeatedReadBySheetTest() throws FileNotFoundException {
+    public void repeatedReadBySheetTest() throws Exception {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
         List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadBySheetNos(inputStream, DataDemo.class, 1,0,1);
         dataDemos.forEach(System.out::println);
