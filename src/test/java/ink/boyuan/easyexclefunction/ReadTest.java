@@ -59,7 +59,7 @@ public class ReadTest {
     @Test
     public void repeatedReadBySheetTest() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("D:\\work\\excel\\repeatWrite.xlsx");
-        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadBySheetNos(inputStream, DataDemo.class, 2,1);
+        List<DataDemo> dataDemos = ImportExcelUtil.repeatedReadBySheetNos(inputStream, DataDemo.class, 1,0,1);
         dataDemos.forEach(System.out::println);
     }
 
