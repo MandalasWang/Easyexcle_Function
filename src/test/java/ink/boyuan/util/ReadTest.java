@@ -4,7 +4,6 @@ package ink.boyuan.util;
 import ink.boyuan.util.easyexcel.model.DataDemo;
 import ink.boyuan.util.easyexcel.util.ImportExcelUtil;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
