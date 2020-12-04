@@ -25,6 +25,19 @@ import java.util.Map;
 public class ImportExcelUtil {
 
 
+    /*************************
+     * 报表读取工具类 包含以下方法
+     * 1、读取表头 headerRead
+     * 2、简单读取单sheet 默认第一个sheet simpleReadFirstSheet
+     * 3、一次性读取所有sheet 不指定sheet repeatedReadToAllSheet
+     * 4、指定sheetNO 读取   repeatedReadBySheetNos
+     * 5、多行表头复杂表头读取  complexHeaderRead
+     * ...
+     *
+     */
+
+
+
     /**
      * 日志记录
      */

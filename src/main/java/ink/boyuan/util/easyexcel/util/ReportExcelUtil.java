@@ -9,6 +9,9 @@ import com.alibaba.excel.write.metadata.style.WriteCellStyle;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.sun.scenario.effect.ImageData;
+import ink.boyuan.util.easyexcel.exception.MyException;
+import ink.boyuan.util.easyexcel.model.ImageDemo;
+import ink.boyuan.util.easyexcel.response.RetResponse;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,6 +32,15 @@ import java.util.List;
 public class ReportExcelUtil {
 
 
+    /***************************
+     * 1、报表导出通过response流 单sheet writeExcelByResponse
+     * 2、多sheet导出 并指定导出的sheet名称通过response流输出 writeExcelComplexSheetByResponse
+     * 3、多sheet导出 并指定导出的sheet名称 writeExcelComplexSheet
+     * 4、单sheet导出 不通过response流 writeExcelIn
+     * 5、单数据集重复导出 repeatedWrite
+     * 6、多数据集重复导出 writeSheetByData
+     * 7、模板写入并导出 writeExcelInSheetNo
+     */
 
     /**
      * 导出 Excel ：一个 sheet，带表头.只有一个sheet 并以response流输出
@@ -113,6 +125,7 @@ public class ReportExcelUtil {
         excelWriter.finish();
     }
 
+
     /**
      * 导出 Excel ：一个 sheet，带表头. 输出流 简单的写入流
      *
@@ -190,6 +203,47 @@ public class ReportExcelUtil {
 
 
     /**
+     * 重复写入多个sheetNo 并导出
+     * @param outputStream  输出流
+     * @param datas  数据源list
+     * @param model  导出模板类
+     * @param <T>
+     * @throws Exception
+     */
+    public static <T> void writeSheetByData(OutputStream outputStream, Class model, List<T> ...datas) {
+        ExcelWriter excelWriter = null;
+        // 头的策略
+        WriteCellStyle headWriteCellStyle = new WriteCellStyle();
+        headWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        // 内容的策略
+        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+        contentWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        // 这个策略是 头是头的样式 内容是内容的样式 其他的策略可以自己实现
+        HorizontalCellStyleStrategy horizontalCellStyleStrategy =
+                new HorizontalCellStyleStrategy(headWriteCellStyle, contentWriteCellStyle);
+        try {
+            // 这里 指定文件 写入输出流
+            excelWriter = EasyExcel.write(outputStream, model).
+                    registerWriteHandler(horizontalCellStyleStrategy).build();
+            // 去调用写入,这里传入sheetNo 表示循环多少次写多少个sheet
+            int i =0;
+            for (List<T> data : datas) {
+                // 每次都要创建writeSheet 这里注意必须指定sheetNo 而且sheetName必须不一样。这里注意DemoData.class 可以每次都变，我这里为了方便 所以用的同一个class 实际上可以一直变
+                WriteSheet writeSheet = EasyExcel.writerSheet(i, String.valueOf(i)).head(model).build();
+                // 分页去数据库查询数据 这里可以去数据库查询每一页的数据
+                excelWriter.write(data, writeSheet);
+                i++;
+            }
+        } finally {
+            // 千万别忘记finish 会帮忙关闭流
+            if (excelWriter != null) {
+                excelWriter.finish();
+            }
+        }
+    }
+
+
+    /**
      * 导出 Excel ：一个 sheet，带表头.模板写入指定sheet并导出 不用浏览器的outputStream
      * 指定写入到哪个sheet中
      *
@@ -236,7 +290,7 @@ public class ReportExcelUtil {
      * @deprecated  当前方法可以使用但是请按照阿里官方文档传入参数
      */
     public static void imageWrite(InputStream inputStream , String fileName,
-                               Class<? extends ImageDemo> clazz, List<? extends ImageDemo> data) throws Exception {
+                                  Class<? extends ImageDemo> clazz, List<? extends ImageDemo> data) throws Exception {
         try {
             Field[] fields = clazz.getFields();
             ImageDemo imageDemo = clazz.newInstance();

@@ -115,4 +115,12 @@ public class ReportTest {
         }
     }
 
+
+    @Test
+    public void WriteByData() throws FileNotFoundException {
+        File file1 = new File("D:\\work\\excel\\WriteByData.xlsx");
+        OutputStream outputStream = new FileOutputStream(file1);
+        ReportExcelUtil.writeSheetByData(outputStream,DataDemo.class,dataDemos,dataDemos);
+    }
+
 }
