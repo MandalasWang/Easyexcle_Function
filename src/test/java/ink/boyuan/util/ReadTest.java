@@ -19,7 +19,6 @@ import java.util.Map;
  * @date 2020/12/1 8:56
  * @description
  **/
-@SpringBootTest
 public class ReadTest {
 
 

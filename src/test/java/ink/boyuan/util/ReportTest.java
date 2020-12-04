@@ -18,7 +18,6 @@ import java.util.List;
  * @date 2020/11/30 13:38
  * @description
  **/
-@SpringBootTest
 public class ReportTest {
 
     /**
