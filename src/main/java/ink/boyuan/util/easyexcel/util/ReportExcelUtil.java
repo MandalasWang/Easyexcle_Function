@@ -42,6 +42,26 @@ public class ReportExcelUtil {
      * 7、模板写入并导出 writeExcelInSheetNo
      */
 
+    private static ReportExcelUtil instance;
+
+    private ReportExcelUtil(){
+
+    }
+
+    public static ReportExcelUtil getInstance(){
+        if(null == instance){
+            synchronized (ReportExcelUtil.class){
+                if(null == instance){
+                    instance = new ReportExcelUtil();
+                }
+            }
+        }
+        return instance;
+    }
+
+
+
+
     /**
      * 导出 Excel ：一个 sheet，带表头.只有一个sheet 并以response流输出
      *

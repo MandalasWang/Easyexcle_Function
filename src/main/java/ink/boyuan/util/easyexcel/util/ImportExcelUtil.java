@@ -37,12 +37,32 @@ public class ImportExcelUtil {
      */
 
 
+    private static ImportExcelUtil instance;
 
     /**
      * 日志记录
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportExcelUtil.class);
 
+
+
+    private ImportExcelUtil(){
+
+    }
+
+
+    public static ImportExcelUtil getInstance(){
+        //判断是否是空 第一重判断
+        if(null == instance){
+            //加锁防止并发
+            synchronized (ImportExcelUtil.class){
+                if(null == instance){
+                    instance = new ImportExcelUtil();
+                }
+            }
+        }
+        return instance;
+    }
 
     /**
      * 读取表头数据
